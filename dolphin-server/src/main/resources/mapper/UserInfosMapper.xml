@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper  namespace="com.xxx.server.mapper.UserInfosMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxx.server.pojo.UserInfo">
+        <id column="id" property="id" />
+        <result column="user_id" property="userId" />
+        <result column="name" property="name" />
+        <result column="phone" property="phone" />
+        <result column="telephone" property="telephone" />
+        <result column="address" property="address" />
+        <result column="user_face" property="userFace" />
+        <result column="remark" property="remark" />
+        <result column="updated_at" property="updated_at" />
+        <result column="created_at" property="created_at" />
+        <result column="company_name" property="companyName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, id, name, phone, telephone, address, user_face, remark
+    </sql>
+
+    <resultMap id="getListsMap" type="com.xxx.server.pojo.UserInfo" extends="BaseResultMap">
+        <association property="user" javaType="com.xxx.server.pojo.User" autoMapping="true"></association>
+        <association property="shop" javaType="com.xxx.server.pojo.Shop">
+            <result column="shop_name" property="companyName" />
+        </association>
+    </resultMap>
+    <select id="getLists" resultMap="getListsMap">
+        SELECT
+            uinfo.*,
+            u.`username`,
+            u.PASSWORD,
+            u.shop_id,
+            s.company_name AS shop_name
+        FROM
+            t_shops AS s,
+            t_users AS u,
+            t_user_infos AS uinfo
+        WHERE
+            u.id = uinfo.user_id
+          AND u.shop_id = s.id
+        <if test="shop.companyName">
+            AND  s.company_name = #{shop.companyName}
+        </if>
+        <if test="userInfo.name">
+            AND  uinfo.name = #{userInfo.name}
+        </if>
+        <if test="userInfo.phone">
+            AND  uinfo.phone = #{userInfo.phone}
+        </if>
+        <if test="userInfo.userId">
+            AND  uinfo.user_id = #{userInfo.userId}
+        </if>
+        ORDER BY
+            u.id DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.server.mapper.MenuRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxx.server.pojo.MenuRole">
+        <id column="id" property="id" />
+        <result column="mid" property="mid" />
+        <result column="rid" property="rid" />
+        <result column="updated_at" property="updated_at" />
+        <result column="created_at" property="created_at" />
+        <result column="company_name" property="companyName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, mid, rid
+    </sql>
+
+
+    <resultMap id="selectMenu" type="com.xxx.server.pojo.MenuRole" extends="BaseResultMap">
+        <id column="m_id" property="menu.id"   />
+         <association property="menu" javaType="com.xxx.server.pojo.Menu" column="m_component">
+             <id column="m_id" property="id" />
+             <result column="m_component" property="component" />
+         </association>
+    </resultMap>
+    <select id="selectMenusByRoleId" resultMap="selectMenu">
+        SELECT
+            r.*,
+            m.id as m_id,
+            m.component as m_component
+        FROM
+            t_roles AS r,
+            t_menu_roles AS mr,
+            t_menus AS m
+        WHERE
+            mr.rid = r.id
+          AND mr.mid = m.id
+          AND r.id = #{rid}
+        ORDER BY
+            r.id DESC
+
+    </select>
+
+
+</mapper>

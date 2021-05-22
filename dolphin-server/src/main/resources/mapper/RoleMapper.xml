@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.server.mapper.RoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxx.server.pojo.Role">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="name_zh" property="name_zh" />
+        <result column="menu_str" property="menu_str" />
+        <result column="updated_at" property="updated_at" />
+        <result column="created_at" property="created_at" />
+        <result column="company_name" property="companyName" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, name, name_zh
+    </sql>
+<!--    通过user_id 获取所有角色-->
+    <select id="getRoles" resultType="com.xxx.server.pojo.Role">
+        SELECT
+            r.id,
+            r.NAME,
+            r.name_zh
+        FROM
+            t_roles r
+                LEFT JOIN t_user_roles AS ar ON r.id = ar.rid
+        WHERE
+            ar.user_id = #{userId}
+    </select>
+    <!--    读取所有角色-->
+    <select id="getAllRole" resultType="com.xxx.server.pojo.Role" >
+        SELECT
+        r.NAME,
+        r.*
+
+        FROM
+        t_roles AS r
+        <where>
+            <if test="name!=null">
+                AND r.name like concat('%',#{name},'%')
+            </if>
+            <if test="name_zh!=null">
+                AND r.name_zh like concat('%',#{name_zh},'%')
+            </if>
+        </where>
+
+        ORDER BY
+        id DESC
+    </select>
+
+</mapper>
