@@ -1,4 +1,6 @@
 package com.xxx.server.controller;
+import java.time.LocalDateTime;
+
 
 import com.xxx.server.pojo.Role;
 import org.springframework.validation.annotation.Validated;
@@ -6,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
+
 
 @RestController
 @Validated
@@ -21,7 +23,8 @@ public class HelloController {
     }
 
     @GetMapping("text")
-    public Role text(@Valid Role role){
+    public Role  text(){
+        Role role = new Role();
         return role;
     }
 

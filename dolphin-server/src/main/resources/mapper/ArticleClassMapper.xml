@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.server.mapper.ArticleClassMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxx.server.pojo.ArticleClass">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="sort" property="sort" />
+        <result column="type" property="type" />
+        <result column="fid" property="fid" />
+        <result column="cover" property="cover" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        name, sort, id, fid, cover,type
+    </sql>
+    <resultMap id="withChildren" type="com.xxx.server.pojo.ArticleClass">
+        <collection property="children" ofType="com.xxx.server.pojo.ArticleClass"
+                    select="com.xxx.server.mapper.ArticleClassMapper.getAllWithChildren" column="id">
+        </collection>
+    </resultMap>
+    <select id="getAllWithChildren" resultMap="withChildren">
+        select
+        <include refid="Base_Column_List"/>
+        from t_article_class
+        where fid = #{parentId}
+    </select>
+
+</mapper>

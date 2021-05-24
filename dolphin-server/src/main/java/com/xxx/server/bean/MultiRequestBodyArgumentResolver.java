@@ -78,7 +78,12 @@ public class MultiRequestBodyArgumentResolver implements HandlerMethodArgumentRe
         } else {
             // 注解为设置value则用参数名当做json的key
             key = parameter.getParameterName();
-            value = jsonObject.get(key);
+            if(jsonObject !=null){
+                value = jsonObject.get(key);
+            }else{
+                value = null;
+            }
+
         }
 
         // 获取的注解后的类型 Long
@@ -121,7 +126,12 @@ public class MultiRequestBodyArgumentResolver implements HandlerMethodArgumentRe
         // 非基本类型，允许解析，将外层属性解析
         Object result;
         try {
-            result = JSON.parseObject(jsonObject.toString(), parameterType);
+            if(jsonObject == null){
+                 result = null;
+            }else{
+                result = JSON.parseObject(jsonObject.toString(), parameterType);
+            }
+
         } catch (JSONException jsonException) {
             // TODO:: 异常处理返回null是否合理？
             result = null;

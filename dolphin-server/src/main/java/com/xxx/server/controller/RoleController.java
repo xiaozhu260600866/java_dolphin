@@ -7,7 +7,6 @@ import com.xxx.server.pojo.RespBean;
 import com.xxx.server.pojo.Role;
 import com.xxx.server.service.IRoleService;
 import com.xxx.server.utils.Utils;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

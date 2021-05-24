@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.server.mapper.ArticleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxx.server.pojo.Article">
+        <id column="id" property="id" />
+        <result column="title" property="title" />
+        <result column="fclass" property="fclass" />
+        <result column="content" property="content" />
+        <result column="remark" property="remark" />
+        <result column="published_at" property="publishedAt" />
+        <result column="cover" property="cover" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, title, fclass, content, remark, published_at, cover
+    </sql>
+    <resultMap id="getListsMap" type="com.xxx.server.pojo.Article" extends="BaseResultMap">
+        <association property="articleClass" javaType="com.xxx.server.pojo.ArticleClass">
+            <result column="fclass_name" property="name" />
+        </association>
+    </resultMap>
+    <select id="getLists" resultMap="getListsMap">
+        SELECT
+            t.*,
+            c.NAME AS fclass_name
+        FROM
+            t_articles AS t
+                LEFT JOIN t_article_class AS c ON t.fclass = c.id
+        ORDER BY
+            t.id DESC
+    </select>
+
+</mapper>
