@@ -47,10 +47,17 @@ public class User extends Base implements Serializable, UserDetails {
     private String password;
 
     private BigDecimal amount;
+    @TableField(value = "shop_id")
+    private  Integer shopId;
+
+    @TableField(value = "role_id")
+    private  Integer roleId;
+
 
     @ApiModelProperty("角色")
     @TableField(exist = false)
     private List<Role> roles;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

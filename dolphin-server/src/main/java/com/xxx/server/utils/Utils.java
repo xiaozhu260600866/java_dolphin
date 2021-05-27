@@ -1,6 +1,7 @@
 package com.xxx.server.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.xxx.server.pojo.User;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
@@ -104,5 +105,23 @@ public class Utils {
         }else{
             return  "https://" + request.getServerName() + ":" + request.getServerPort();
         }
+    }
+
+    /**
+     * 格式化vue 格式 label value
+     */
+    public static List<Map<String,Object>> getLabel(List<?> lists,String labelName){
+        List<Map<String,Object>> resultList = new ArrayList<>();
+        for (Object list : lists) {
+            Map<String,Object> resultMap = new JSONObject();
+            JSONObject json = (JSONObject) JSON.toJSON(list);
+            resultMap.put("label",(String)json.get(labelName));
+            resultMap.put("id",(Integer)json.get("id"));
+            resultMap.put("value",(Integer)json.get("id"));
+            resultList.add(resultMap);
+        }
+        return resultList;
+
+
     }
 }

@@ -48,13 +48,12 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 "/static/images/**",
                 "/static/images/**/**",
                 "favicon.ico",
-                "/doc.html**",
+                "/doc**",
                 "/webjars/**",
                 "/swagger-resources/**",
                 "/v2/api-docs/**",
                 "/captcha**",
-                "/captcha/text",
-                "/ajax/**"
+                "/captcha/text"
 
 
 

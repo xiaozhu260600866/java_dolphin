@@ -9,6 +9,7 @@ import com.xxx.server.annotation.MultiRequestBody;
 import com.xxx.server.pojo.*;
 import com.xxx.server.service.IUserService;
 import com.xxx.server.utils.GetRequestJsonUtils;
+import com.xxx.server.utils.Utils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -36,10 +37,10 @@ public class UserController {
     private IUserService userService;
     @ApiOperation("查看所有会员")
     @GetMapping("/")
-    public Map getLists(UserInfo userInfo, Shop shop){
-
+    public Map getLists(UserInfo userInfo, Shop shop,User user){
+        user.setRole(2);
         PageHelper.startPage(1, 15, true);
-        List<UserInfo> list = userService.getLists(userInfo,shop);
+        List<UserInfo> list = userService.getLists(userInfo,shop,user);
         PageInfo<UserInfo> pageInfo = new PageInfo<UserInfo>(list);
         Map lists = RespBean.getLists(pageInfo, list);
         return lists;
@@ -47,13 +48,17 @@ public class UserController {
     @ApiOperation("新增会员")
     @PostMapping("/create")
     public RespBean  create(@Valid @MultiRequestBody UserInfo userInfo,  @Valid @MultiRequestBody User user) {
-        RespBean result =  userService.create(userInfo,user);
+        user.setRole(2);
+        user.setShopId(Utils.getUser().getShopId());
+        System.out.println("shop_id"+user.getShopId());
+        RespBean result =  userService.create(userInfo,user,null);
         return result;
     }
     @ApiOperation("修改会员")
     @PostMapping("/edit")
     public  RespBean edit(@Valid @MultiRequestBody UserInfo userInfo,  @Valid @MultiRequestBody User user){
-        RespBean result =  userService.edit(userInfo,user);
+        user.setShopId(Utils.getUser().getShopId());
+        RespBean result =  userService.edit(userInfo,user,null);
         return result;
     }
     @ApiOperation("删除会员")

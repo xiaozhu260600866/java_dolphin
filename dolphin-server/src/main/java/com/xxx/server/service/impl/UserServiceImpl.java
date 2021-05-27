@@ -7,6 +7,7 @@ import com.xxx.server.config.security.component.JwtTokenUtil;
 import com.xxx.server.mapper.UserInfosMapper;
 import com.xxx.server.mapper.UserMapper;
 import com.xxx.server.mapper.RoleMapper;
+import com.xxx.server.mapper.UserRoleMapper;
 import com.xxx.server.pojo.*;
 import com.xxx.server.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ import java.util.Map;
  */
 @Service
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+    @Autowired
+    private UserRoleMapper userRoleMapper;
     @Autowired
     private UserMapper userMapper;
 
@@ -106,9 +109,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     *return java.util.List<com.xxx.server.pojo.User>
     */
     @Override
-    public List<UserInfo> getLists(UserInfo userInfo, Shop shop) {
+    public List<UserInfo> getLists(UserInfo userInfo, Shop shop, User user) {
 
-        return userInfoMapper.getLists(userInfo,shop);
+        return userInfoMapper.getLists(userInfo,shop,user);
     }
 
     /*
@@ -121,29 +124,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     */
     @Override
     @Transactional
-    public RespBean create(UserInfo userInfo, User user) {
+    public RespBean create(UserInfo userInfo, User user,UserRole userRole) {
          user.setUsername(userInfo.getPhone());
-         user.setRole(3);
-         user.setEnabled(false);
          user.setPassword(passwordEncoder.encode(user.getPassword()));
          userMapper.insert(user);
          userInfo.setUserId(user.getId());
          userInfoMapper.insert(userInfo);
-         return RespBean.success("创建成功");
+
+        if (userRole != null && userRole.getRoleId() !=null) {
+            userRole.setUserId(user.getId());
+            userRoleMapper.insert(userRole);
+        }
+
+
+        return RespBean.success("创建成功");
 
 
     }
 
     @Override
-    public RespBean edit(UserInfo userInfo, User user) {
+    public RespBean edit(UserInfo userInfo, User user,UserRole userRole) {
         user.setUsername(userInfo.getPhone());
-        user.setRole(3);
-        user.setEnabled(false);
         if(user.getPassword() !=null){
             user.setPassword(passwordEncoder.encode(user.getPassword()));
         }
         userMapper.updateById(user);
         userInfoMapper.updateById(userInfo);
+
+        if (userRole != null &&  userRole.getRoleId() !=null) {
+            userRoleMapper.delete(new QueryWrapper<UserRole>().eq("user_id",user.getId()));
+            userRole.setUserId(user.getId());
+            userRoleMapper.insert(userRole);
+        }
         return RespBean.success("修改成功");
 
     }
@@ -153,7 +165,20 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     public RespBean del(User user) {
        userMapper.deleteById(user.getId());
        userInfoMapper.delete(new QueryWrapper<UserInfo>().eq("user_id",user.getId()));
+       userRoleMapper.delete(new QueryWrapper<UserRole>().eq("user_id",user.getId()));
        return RespBean.success("删除成功");
+    }
+
+    /**
+     * 员工列表
+     * @param userInfo
+     * @param shop
+     * @param user
+     * @return
+     */
+    @Override
+    public List<UserInfo> getStaffLists(UserInfo userInfo, Shop shop, User user) {
+        return userInfoMapper.getStaffLists(userInfo,shop,user);
     }
 
 

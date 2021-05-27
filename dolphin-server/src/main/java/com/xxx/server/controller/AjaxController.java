@@ -4,6 +4,7 @@ import com.xxx.server.pojo.RespBean;
 import io.swagger.annotations.ApiOperation;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.ArrayUtils;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,12 +20,17 @@ import java.util.*;
 @RestController
 @RequestMapping("/ajax")
 public class AjaxController {
+    // 文件的真实路径
+    @Value("${file.uploadFolder}")
+    private String realBasePath;
+    @Value("${file.accessPath}")
+    private String accessPath;
     @ApiOperation("上传图片")
     @PostMapping("/uploadpic")
     public RespBean upload(HttpServletRequest request){
-        String path= ClassUtils.getDefaultClassLoader().getResource("static/images").getPath();
+        String path= realBasePath;
         String upurl = request.getParameter("upurl");
-        path = path+="/"+upurl;
+        path = path+="images/"+upurl;
         File pathFile = new File(path);
         if(!pathFile.isDirectory()){
             pathFile.mkdir();

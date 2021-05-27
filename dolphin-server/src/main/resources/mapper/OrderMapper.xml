@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.server.mapper.OrderMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xxx.server.pojo.Order">
+        <id column="id" property="id" />
+        <result column="deleted_at" property="deleted_at" />
+        <result column="created_at" property="created_at" />
+        <result column="updated_at" property="updated_at" />
+        <result column="date" property="date" />
+        <result column="user_id" property="userId" />
+        <result column="status" property="status" />
+        <result column="phone" property="phone" />
+        <result column="remark" property="remark" />
+        <result column="order_no" property="orderNo" />
+        <result column="num" property="num" />
+        <result column="goods_name" property="goodsName" />
+        <result column="weight" property="weight" />
+        <result column="goods_position" property="goodsPosition" />
+        <result column="price" property="price" />
+        <result column="pay_method" property="payMethod" />
+        <result column="shop_id" property="shopId" />
+        <result column="finish_date" property="finishDate" />
+        <result column="take_date" property="takeDate" />
+        <result column="createor" property="createor" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id, deleted_at, created_at, updated_at, date, user_id, status, phone, remark, order_no, num, goods_name, weight, goods_position, price, pay_method, shop_id, finish_date, take_date, createor
+    </sql>
+    <resultMap id="getListMap" type="com.xxx.server.pojo.Order" extends="BaseResultMap">
+        <association property="shop" javaType="com.xxx.server.pojo.Shop">
+            <result column="shop_name" property="name" />
+        </association>
+        <association property="user" javaType="com.xxx.server.pojo.UserInfo">
+            <result column="user_name" property="name" />
+            <result column="user_phone" property="phone" />
+        </association>
+        <association property="staff" javaType="com.xxx.server.pojo.UserInfo">
+            <result column="staff_name" property="name" />
+        </association>
+    </resultMap>
+    <select id="getList" resultMap="getListMap">
+        SELECT
+            o.*,
+            u.NAME AS user_name,
+            u.phone AS user_phone,
+            s.NAME AS shop_name,
+            staff.NAME AS staff_name
+        FROM
+            t_order AS o,
+            t_shops AS s,
+            t_user_infos AS u,
+            t_user_infos AS staff
+        WHERE
+            o.shop_id = s.id
+          AND o.user_id = u.user_id
+          AND o.createor = staff.user_id
+          AND o.deleted_at = 0
+        <if test="status!=null">
+            and o.status = #{status}
+        </if>
+        <if test="userId!=null">
+            and o.user_id = #{userId}
+        </if>
+        <if test="goodsName!=null">
+            and o.good_name = #{goodsName}
+        </if>
+        <if test="orderNo!=null">
+            and o.order_no = #{orderNo}
+        </if>
+        ORDER BY
+            o.id DESC
+    </select>
+
+</mapper>

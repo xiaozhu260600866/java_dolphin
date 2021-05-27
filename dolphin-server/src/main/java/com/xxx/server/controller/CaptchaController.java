@@ -72,4 +72,9 @@ public class CaptchaController {
 //-------------------生成验证码 end ----------------------------
     }
 
+    @GetMapping("/captcha/text")
+    public String CText(){
+        return "!";
+    }
+
 }

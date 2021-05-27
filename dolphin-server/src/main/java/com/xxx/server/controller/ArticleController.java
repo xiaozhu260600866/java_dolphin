@@ -51,6 +51,7 @@ public class ArticleController {
     }
     @PostMapping("/class")
     public RespBean postArticleClass(@Valid @MultiRequestBody ArticleClass articleClass){
+        articleClass.setCover(Utils.getCoverString(articleClass.getCover(),"product"));
         if(articleClass.getId() !=null){
             return articleClassService.updateClass(articleClass);
         }else{

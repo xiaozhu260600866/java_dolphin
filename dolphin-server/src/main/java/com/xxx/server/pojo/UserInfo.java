@@ -69,6 +69,11 @@ public class UserInfo extends  Base implements Serializable {
     private  Shop shop;
 
 
+    @ApiModelProperty("角色")
+    @TableField(exist = false)
+    private Role getRole;
+
+
 
 //    public String getUserFace() {
 //        if(userFace !=null){

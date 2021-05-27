@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_admin_role")
+@TableName("t_user_roles")
 @ApiModel(value="AdminRole对象", description="")
 public class UserRole extends Base implements Serializable {
 
@@ -33,11 +33,12 @@ public class UserRole extends Base implements Serializable {
     private Integer id;
 
     @ApiModelProperty(value = "用户id")
-    @TableField("admin_id")
-    private Integer adminId;
+    @TableField("user_id")
+    private Integer userId;
 
     @ApiModelProperty(value = "权限id")
-    private Integer rid;
+    @TableField("role_id")
+    private Integer roleId;
 
 
 
