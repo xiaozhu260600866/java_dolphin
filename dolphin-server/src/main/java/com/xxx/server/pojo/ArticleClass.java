@@ -28,7 +28,7 @@ import javax.validation.constraints.NotBlank;
 @Accessors(chain = true)
 @TableName("t_article_class")
 @ApiModel(value="ArticleClass对象", description="")
-public class ArticleClass implements Serializable {
+public class ArticleClass extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -57,15 +57,7 @@ public class ArticleClass implements Serializable {
     private List<ArticleClass> children;
 
 
-    @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @TableField(value = "created_at",fill = FieldFill.INSERT)//创建注解
-    private LocalDateTime created_at;
 
-    @ApiModelProperty(value = "更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)//更新注解
-    private LocalDateTime updated_at;
 
 
 

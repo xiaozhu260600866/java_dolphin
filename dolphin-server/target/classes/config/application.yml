@@ -1,7 +1,6 @@
 server:
   # 端口
   port: 8089
-
 spring:
   # 数据源配置
   datasource:
@@ -62,9 +61,25 @@ spring:
     publisher-confirm-type: correlated
     #消息失败回调
     publisher-returns: true
+  servlet:
+    multipart:
+      #上传文件大小
+      max-request-size: 10MB
+      #单个文件最大值
+      max-file-size: 10MB
+  mvc:
+    static-path-pattern: /static/**
+  web:
+    resources:
+      static-locations: classpath:/static/
 
 # Mybatis-plus配置
 mybatis-plus:
+  global-config:
+    db-config:
+      logic-delete-field: deleted_at
+      logic-delete-value: UNIX_TIMESTAMP()
+      logic-not-delete-value: 0
   #配置Mapper映射文件
   mapper-locations: classpath*:/mapper/*Mapper.xml
   # 配置MyBatis数据返回类型别名（默认别名是类名）
@@ -74,6 +89,7 @@ mybatis-plus:
     map-underscore-to-camel-case: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     call-setters-on-nulls: true
+    
 
 ## Mybatis SQL 打印(方法接口所在的包，不是Mapper.xml所在的包)
 logging:

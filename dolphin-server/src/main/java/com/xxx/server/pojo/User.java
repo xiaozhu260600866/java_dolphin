@@ -34,7 +34,7 @@ import java.util.stream.Collectors;
 @Accessors(chain = true)
 @TableName("t_users")
 @ApiModel(value="Admin对象", description="")
-public class User implements Serializable, UserDetails {
+public class User extends Base implements Serializable, UserDetails {
 
     private static final long serialVersionUID = 1L;
     @TableId(value = "id", type = IdType.AUTO)
@@ -51,23 +51,6 @@ public class User implements Serializable, UserDetails {
     @ApiModelProperty("角色")
     @TableField(exist = false)
     private List<Role> roles;
-
-    @ApiModelProperty(value = "创建时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @TableField(value = "created_at",fill = FieldFill.INSERT)//创建注解
-    private LocalDateTime created_at;
-
-    @ApiModelProperty(value = "更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)//更新注解
-    private LocalDateTime updated_at;
-
-
-
-
-
-
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

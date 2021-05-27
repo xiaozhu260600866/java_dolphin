@@ -10,6 +10,7 @@
         <result column="menu_str" property="menu_str" />
         <result column="updated_at" property="updated_at" />
         <result column="created_at" property="created_at" />
+        <result column="deleted_at" property="deleted_at" />
         <result column="company_name" property="companyName" />
     </resultMap>
 

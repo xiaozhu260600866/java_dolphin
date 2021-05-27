@@ -16,17 +16,20 @@ import java.util.Date;
 */
 @Component
 public class MyMetaObjectHandler implements MetaObjectHandler {
+
+
+
     @Override
     public void insertFill(MetaObject metaObject) {
         //属性名称，不是字段名称
         System.out.println("0097");
-        this.setFieldValByName("createdAt", LocalDateTime.now(), metaObject);
-        this.setFieldValByName("updatedAt", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("created_at", LocalDateTime.now(), metaObject);
+        this.setFieldValByName("updated_at", LocalDateTime.now(), metaObject);
     }
 
     @Override
     public void updateFill(MetaObject metaObject) {
-        System.out.println("0096");
-        this.setFieldValByName("updatedAt", LocalDateTime.now(), metaObject);
+
+        this.setFieldValByName("updated_at", LocalDateTime.now(), metaObject);
     }
 }

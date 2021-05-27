@@ -28,7 +28,7 @@ import javax.validation.constraints.NotBlank;
 @Accessors(chain = true)
 @TableName("t_shops")
 @ApiModel(value="Shops对象", description="")
-public class Shop implements Serializable {
+public class Shop extends Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -47,15 +47,7 @@ public class Shop implements Serializable {
     @TableField("company_name")
     private String companyName;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @ApiModelProperty(value = "创建时间")
-    @TableField(value = "created_at",fill = FieldFill.INSERT)//创建注解
-    private LocalDateTime created_at;
 
-    @ApiModelProperty(value = "更新时间")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
-    @TableField(value = "updated_at",fill = FieldFill.INSERT_UPDATE)//更新注解
-    private LocalDateTime updated_at;
 
 
 }
