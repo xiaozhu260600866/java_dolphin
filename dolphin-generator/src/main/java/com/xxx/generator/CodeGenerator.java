@@ -52,7 +52,7 @@ public class CodeGenerator {
 // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/yeb-generator/src/main/java");
+        gc.setOutputDir(projectPath + "/db-generator/src/main/java");
 //作者
         gc.setAuthor("zhoubin");
 //打开输出目录
@@ -70,11 +70,11 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://localhost:3306/dolphin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia" + "/Shanghai");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("");
+        dsc.setPassword("zhuweiqiang");
         mpg.setDataSource(dsc);
 // 包配置
         PackageConfig pc = new PackageConfig();
-        pc.setParent("com.xxxx")
+        pc.setParent("com.xxx.server")
                 .setEntity("pojo")
                 .setMapper("mapper")
                 .setService("service")
@@ -99,9 +99,12 @@ public class CodeGenerator {
             @Override
             public String outputFile(TableInfo tableInfo) {
 // 自定义输出文件名 ， 如果你 Entity 设置了前后缀、此处注意 xml 的名称会   跟着发生变化！！
-
-                return projectPath + "/yeb-generator/src/main/resources/mapper/"
-                        + tableInfo.getEntityName() + "Mapper"
+                String tableName = tableInfo.getEntityName().substring(tableInfo.getEntityName().length() - 1, tableInfo.getEntityName().length()).equals("s") ?
+                        tableInfo.getEntityName().substring(0, tableInfo.getEntityName().length() -1):
+                        tableInfo.getEntityName();
+                System.out.println("tableName"+tableName);
+                return projectPath + "/db-generator/src/main/resources/mapper/"
+                        + tableName + "Mapper"
                         + StringPool.DOT_XML;
             }
         });
