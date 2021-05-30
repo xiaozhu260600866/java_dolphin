@@ -27,6 +27,7 @@
         <association property="shop" javaType="com.xxx.server.pojo.Shop">
             <result column="shop_name" property="companyName" />
         </association>
+
     </resultMap>
     <select id="getLists" resultMap="getListsMap">
         SELECT
@@ -42,6 +43,54 @@
         WHERE
             u.id = uinfo.user_id
           AND u.shop_id = s.id
+          And u.deleted_at = 0
+          and u.role = #{use.role}
+        <if test="shop.companyName">
+            AND  s.company_name = #{shop.companyName}
+        </if>
+        <if test="userInfo.name">
+            AND  uinfo.name = #{userInfo.name}
+        </if>
+        <if test="userInfo.phone">
+            AND  uinfo.phone = #{userInfo.phone}
+        </if>
+        <if test="userInfo.userId">
+            AND  uinfo.user_id = #{userInfo.userId}
+        </if>
+
+        ORDER BY
+            u.id DESC
+    </select>
+    <resultMap id="getStaffMap" type="com.xxx.server.pojo.UserInfo" extends="BaseResultMap">
+        <association property="user" javaType="com.xxx.server.pojo.User" autoMapping="true"></association>
+        <association property="shop" javaType="com.xxx.server.pojo.Shop">
+            <result column="shop_name" property="companyName" />
+        </association>
+        <association property="getRole" javaType="com.xxx.server.pojo.Role">
+            <result column="role_name" property="name" />
+        </association>
+
+    </resultMap>
+    <select id="getStaffLists" resultMap="getStaffMap">
+        SELECT
+        uinfo.*,
+        u.`username`,
+        u.PASSWORD,
+        u.shop_id as shopId,
+        u.role_id as roleId,
+        s.company_name AS shop_name,
+        r.name AS role_name
+        FROM
+        t_shops AS s,
+        t_users AS u,
+        t_user_infos AS uinfo,
+        t_roles AS r
+        WHERE
+        u.id = uinfo.user_id
+        AND u.shop_id = s.id
+        AND u.role_id = r.id
+        And u.role = #{user.role}
+        And u.deleted_at = 0
         <if test="shop.companyName">
             AND  s.company_name = #{shop.companyName}
         </if>
@@ -55,7 +104,7 @@
             AND  uinfo.user_id = #{userInfo.userId}
         </if>
         ORDER BY
-            u.id DESC
+        u.id DESC
     </select>
 
 </mapper>
