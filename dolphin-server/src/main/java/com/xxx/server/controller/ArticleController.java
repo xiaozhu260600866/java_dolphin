@@ -4,14 +4,12 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xxx.server.annotation.MultiRequestBody;
 import com.xxx.server.mapper.ArticleClassMapper;
-import com.xxx.server.pojo.Article;
-import com.xxx.server.pojo.ArticleClass;
-import com.xxx.server.pojo.RespBean;
-import com.xxx.server.pojo.Role;
+import com.xxx.server.pojo.*;
 import com.xxx.server.service.IArticleClassService;
 import com.xxx.server.service.IArticleService;
 import com.xxx.server.service.impl.ArticleServiceImpl;
@@ -65,6 +63,19 @@ public class ArticleController {
         Integer id = (Integer) params.get("v");
         if(type.equals("del_zc")){
             articleClassService.removeById(id);
+        }else if(type.equals("update_class")){
+            try {
+                //判断该类字段的类型
+                String modelFildType = ArticleClass.class.getDeclaredField((String) params.get("t")).getType().getName();
+                if(modelFildType.equals("java.lang.Integer")){
+                    articleClassService.update(new UpdateWrapper<ArticleClass>().eq("id",id).set((String) params.get("t"),(Integer)params.get("v")));
+                }else if(modelFildType.equals("java.lang.String")){
+                    articleClassService.update(new UpdateWrapper<ArticleClass>().eq("id",id).set((String) params.get("t"),(String)params.get("v")));
+                }
+
+            } catch (NoSuchFieldException e) {
+                e.printStackTrace();
+            }
         }
         return params;
     }

@@ -18,29 +18,37 @@ import lombok.experimental.Accessors;
  * </p>
  *
  * @author zhoubin
- * @since 2021-05-30
+ * @since 2021-05-31
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("t_site_config")
-@ApiModel(value="SiteConfig对象", description="")
-public class SiteConfig extends Base implements Serializable {
+@TableName("t_category")
+@ApiModel(value="Category对象", description="")
+public class Category extends  Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @TableId(value = "id", type = IdType.AUTO)
     private Integer id;
 
+    private Integer type;
+
+    private Integer fid;
+
     private String name;
 
-    private String value;
-
-    private String remark;
+    private Integer sort;
 
     @TableField("site_name")
     private String siteName;
 
+    private String url;
+
+    @TableField("can_show")
+    public Integer can_show;
+
+    private String cover;
 
 
 

@@ -8,7 +8,7 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/dolphin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
     username: root
-    password: zhuweiqiang
+    password:
     hikari:
       # 连接池名
       pool-name: DateHikariCP
@@ -115,6 +115,6 @@ pagehelper:
 file:
   accessPath: /static/
   staticAccessPath: /static/**
-  uploadFolder: /site/dolphin_java/back_server/java_dolphin/dolphin-server/src/main/resources/static/
+  uploadFolder: D:\java\dolphin\backServer\dolphin-server\src\main\resources\static\
 
 

@@ -44,7 +44,7 @@
             u.id = uinfo.user_id
           AND u.shop_id = s.id
           And u.deleted_at = 0
-          and u.role = #{use.role}
+          and u.role = #{user.role}
         <if test="shop.companyName">
             AND  s.company_name = #{shop.companyName}
         </if>

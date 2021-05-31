@@ -5,12 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.xxx.server.pojo.User;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.poi.ss.formula.functions.T;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 
 public class Utils {
@@ -75,22 +79,26 @@ public class Utils {
      * 用于全局图片格式化的
      */
     public static String getCoverString(String jsonString,String upurl){
-        ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = requestAttributes.getRequest();
-        String url = Utils.getUrl();
-        List lists = JSON.parseArray(jsonString);
-         List<String> res = new ArrayList<>();
-        for (Object list : lists) {
-            Map<String, Object> field = (Map<String, Object>) list;
-            if(field.get("response") !=null){
-                Map<String, Object> response = (Map<String, Object>) field.get("response");
-                Map<String, Object> obj = (Map<String, Object>) response.get("obj");
-                res.add(url+"/static/images/"+upurl+"/"+(String) obj.get("filename"));
-            }else{
-                res.add((String) field.get("url"));
+        if(jsonString!=null){
+            ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            HttpServletRequest request = requestAttributes.getRequest();
+            String url = Utils.getUrl();
+            List lists = JSON.parseArray(jsonString);
+             List<String> res = new ArrayList<>();
+            for (Object list : lists) {
+                Map<String, Object> field = (Map<String, Object>) list;
+                if(field.get("response") !=null){
+                    Map<String, Object> response = (Map<String, Object>) field.get("response");
+                    Map<String, Object> obj = (Map<String, Object>) response.get("obj");
+                    res.add(url+"/static/images/"+upurl+"/"+(String) obj.get("filename"));
+                }else{
+                    res.add((String) field.get("url"));
+                }
             }
-        }
         return StringUtils.join(res,",");
+        }else{
+            return null;
+        }
     }
 
     /*
@@ -121,7 +129,7 @@ public class Utils {
             resultList.add(resultMap);
         }
         return resultList;
-
-
     }
+
+
 }

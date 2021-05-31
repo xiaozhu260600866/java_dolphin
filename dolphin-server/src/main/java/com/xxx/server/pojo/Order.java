@@ -11,8 +11,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -96,6 +95,30 @@ public class Order extends  Base implements Serializable {
     @ApiModelProperty(value = "创建者")
     @TableField(exist = false)
     private  UserInfo staff;
+
+
+    @TableField(exist = false)
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    private  String payMethodString;
+
+    public String getPayMethodString() {
+        if(payMethod !=null){
+            switch(payMethod){
+                case 2 :return  "余额支付";
+                case 3 :return  "现金支付";
+                case 4: return "Mpay支付";
+            }
+        }
+
+        return "123";
+    }
+
+
+
+
+
+
 
 
 }

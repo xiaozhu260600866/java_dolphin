@@ -7,20 +7,20 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xxx.server.mapper.OrderMapper;
+import com.xxx.server.mapper.UserMapper;
 import com.xxx.server.pojo.Article;
 import com.xxx.server.pojo.Order;
 import com.xxx.server.pojo.RespBean;
+import com.xxx.server.pojo.User;
 import com.xxx.server.service.IOrderService;
 import com.xxx.server.utils.Utils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -39,6 +39,8 @@ public class OrderController {
     private IOrderService orderService;
     @Autowired
     private OrderMapper orderMapper;
+    @Autowired
+    private UserMapper userMapper;
     @ApiOperation("订单列表")
     @GetMapping("/lists")
     public Map Lists(Order order){
@@ -75,6 +77,21 @@ public class OrderController {
             exception.printStackTrace();
         }
         return RespBean.success("成功");
+    }
+    @PostMapping("/pay")
+    public RespBean pay(@RequestBody Order order){
+        Order orderDetail = orderMapper.selectOne(new QueryWrapper<Order>().eq("id", order.getId()));
+
+        if(order.getPayMethod() == 2){
+            User user = userMapper.selectOne(new QueryWrapper<User>().eq("id", order.getUserId()));
+            if(user.getAmount().compareTo(order.getPrice()) == -1){
+                    return RespBean.error("余额不足");
+            }
+        }
+        order.setFinishDate(LocalDateTime.now());
+        order.setStatus(2);
+        orderMapper.updateById(order);
+        return RespBean.success("添加成功");
     }
 
 }
