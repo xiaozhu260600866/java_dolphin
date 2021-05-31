@@ -70,7 +70,7 @@ public class CodeGenerator {
         dsc.setUrl("jdbc:mysql://localhost:3306/dolphin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia" + "/Shanghai");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("zhuweiqiang");
+        dsc.setPassword("");
         mpg.setDataSource(dsc);
 // 包配置
         PackageConfig pc = new PackageConfig();
