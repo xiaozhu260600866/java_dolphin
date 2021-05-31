@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -72,6 +73,17 @@ public class UserInfo extends  Base implements Serializable {
     @ApiModelProperty("角色")
     @TableField(exist = false)
     private Role getRole;
+
+
+    @ApiModelProperty("统计订单数")
+    @TableField(exist = false)
+    private Integer orderNum;
+
+    @ApiModelProperty("统计订单金额")
+    @TableField(exist = false)
+    private BigDecimal orderSum;
+
+
 
 
 

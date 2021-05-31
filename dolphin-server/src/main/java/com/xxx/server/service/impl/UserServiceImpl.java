@@ -59,9 +59,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         System.out.println("endcode"+encode);
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         System.out.println(userDetails);
-//        if(null == userDetails ||!passwordEncoder.matches(password,userDetails.getPassword()) ){
-//            return RespBean.error("密码错误");
-//        }
+        if(null == userDetails ||!passwordEncoder.matches(password,userDetails.getPassword()) ){
+            return RespBean.error("密码错误");
+        }
         if(!userDetails.isEnabled()){
             return RespBean.error("帐号被禁用");
         }

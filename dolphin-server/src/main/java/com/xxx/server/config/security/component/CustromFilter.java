@@ -38,7 +38,7 @@ public class CustromFilter implements FilterInvocationSecurityMetadataSource {
         System.out.println(requestUrl);
         System.out.println("user:"+Utils.getUser());
         //判断如果是管理员角色的；
-       if(null != Utils.getUser() && Utils.getUser().getRole() == 1){
+       if(null != Utils.getUser() && Utils.getUser().getRole() == 1 ||null != Utils.getUser()  &&  requestUrl.equals("/auth/userinfo")){
            return SecurityConfig.createList("ROLE_ADMIN");
        }else{
            //        没pi配的url默认登录可访问

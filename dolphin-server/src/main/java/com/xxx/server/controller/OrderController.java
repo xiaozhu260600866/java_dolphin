@@ -93,5 +93,10 @@ public class OrderController {
         orderMapper.updateById(order);
         return RespBean.success("添加成功");
     }
+    @PostMapping("/del")
+    public  RespBean del(@RequestBody Order order){
+         orderService.removeById(order.getId());
+         return RespBean.success("操作成功");
+    }
 
 }

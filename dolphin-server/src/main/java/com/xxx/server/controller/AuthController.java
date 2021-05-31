@@ -1,8 +1,10 @@
 package com.xxx.server.controller;
 
-import com.xxx.server.pojo.User;
-import com.xxx.server.pojo.UserLoginParam;
-import com.xxx.server.pojo.RespBean;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xxx.server.mapper.MenuRoleMapper;
+import com.xxx.server.mapper.RoleMapper;
+import com.xxx.server.pojo.*;
+import com.xxx.server.service.IMenuRoleService;
 import com.xxx.server.service.IUserService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +12,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -19,6 +23,9 @@ import java.util.Map;
 public class AuthController {
     @Autowired
     private IUserService userService;
+   @Autowired
+   private MenuRoleMapper menuRoleMapper;
+
     @ApiOperation(value = "登录之后返回token")
     @PostMapping("/login")
     public RespBean login(UserLoginParam userLoginParam, HttpServletRequest request){
@@ -46,11 +53,23 @@ public class AuthController {
         user.setPassword(null);
         user.setRoles(userService.getRoles(user.getId()));
 
+        List<String> Menu = new ArrayList<>();
+        List<MenuRole> menuRoles = menuRoleMapper.selectMenusByRoleId(user.getRoleId());
+        for (MenuRole menuRole : menuRoles) {
+            Menu.add(menuRole.getMenu().getComponent());
+        }
+
+
         Map<String,Object> result = new HashMap<>();
         result.put("code",0);
         Map<String,Object> data = new HashMap<>();
-        String[] roleArr = {"admin"};
-        data.put("roles",roleArr);
+        if(user.getRole() == 1){
+            String[] roles = {"admin"};
+            data.put("roles",roles);
+        }else{
+            data.put("roles",Menu);
+        }
+
         data.put("user",user);
         result.put("data",data);
         return result;

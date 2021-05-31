@@ -36,7 +36,7 @@ public class UserController {
     @Autowired
     private IUserService userService;
     @ApiOperation("查看所有会员")
-    @GetMapping("/")
+    @GetMapping("/lists")
     public Map getLists(UserInfo userInfo, Shop shop,User user){
         user.setRole(2);
         PageHelper.startPage(1, 15, true);

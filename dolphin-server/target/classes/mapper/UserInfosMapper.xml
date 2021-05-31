@@ -27,8 +27,16 @@
         <association property="shop" javaType="com.xxx.server.pojo.Shop">
             <result column="shop_name" property="companyName" />
         </association>
+        <association property="orderNum" column="user_id" select="selectOrderNum"></association>
+        <association property="orderSum" column="user_id" select="selectOrderSum"></association>
 
     </resultMap>
+    <select id="selectOrderNum" resultType="integer" >
+         select count("count") from  t_order where user_id = #{user_id} and deleted_at = 0 and status = 2
+    </select>
+    <select id="selectOrderSum" resultType="decimal" >
+        select sum(price) from  t_order where user_id = #{user_id} and deleted_at = 0 and status = 2
+    </select>
     <select id="getLists" resultMap="getListsMap">
         SELECT
             uinfo.*,
