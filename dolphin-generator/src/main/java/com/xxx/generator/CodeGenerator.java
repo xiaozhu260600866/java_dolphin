@@ -67,10 +67,10 @@ public class CodeGenerator {
         mpg.setGlobalConfig(gc);
 // 数据源配置
         DataSourceConfig dsc = new DataSourceConfig();
-        dsc.setUrl("jdbc:mysql://localhost:3306/dolphin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia" + "/Shanghai");
+        dsc.setUrl("jdbc:mysql://120.79.159.81:3306/dolphin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia" + "/Shanghai");
         dsc.setDriverName("com.mysql.cj.jdbc.Driver");
         dsc.setUsername("root");
-        dsc.setPassword("");
+        dsc.setPassword("Dx3229010_mysql");
         mpg.setDataSource(dsc);
 // 包配置
         PackageConfig pc = new PackageConfig();
