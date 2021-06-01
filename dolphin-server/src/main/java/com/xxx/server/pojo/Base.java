@@ -8,6 +8,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Map;
+
 @Data
 public class Base {
     @ApiModelProperty(value = "创建时间")
@@ -24,6 +26,11 @@ public class Base {
     @TableLogic
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private  Integer deleted_at;
+
+    @ApiModelProperty(value="用于查询非实体类属性的")
+    @TableField(exist = false)
+    private Map<String,Object> searchParams;
+
 
 
 }

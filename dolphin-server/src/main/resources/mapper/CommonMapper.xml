@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xxx.server.mapper.CommonMapper">
+    <sql id="globalWhere">
+            And ${tableName}.deleted_at = 0
+            and ${tableName}.created_at &lt; ${created_at_end}
+            and ${tableName}.created_at  &gt;=  ${created_at_start}
+
+<!--            <if test="userInfo.searchParams!=null and userInfo.searchParams.created_at_start!=null">-->
+<!--               -->
+<!--            </if>-->
+
+    </sql>
+</mapper>

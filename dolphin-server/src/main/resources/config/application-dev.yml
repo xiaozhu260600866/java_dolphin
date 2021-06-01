@@ -7,8 +7,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://120.79.159.81:3306/dolphin?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
-    username: root
-    password: Dx3229010_mysql
+    username: dolphin
+    password: Dolphin3229010__mysql
     hikari:
       # 连接池名
       pool-name: DateHikariCP

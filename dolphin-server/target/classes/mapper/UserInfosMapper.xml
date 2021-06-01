@@ -17,18 +17,20 @@
         <result column="company_name" property="companyName" />
     </resultMap>
 
+
+
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         user_id, id, name, phone, telephone, address, user_face, remark
     </sql>
 
     <resultMap id="getListsMap" type="com.xxx.server.pojo.UserInfo" extends="BaseResultMap">
-        <association property="user" javaType="com.xxx.server.pojo.User" autoMapping="true"></association>
+        <association property="user" javaType="com.xxx.server.pojo.User" autoMapping="true"/>
         <association property="shop" javaType="com.xxx.server.pojo.Shop">
             <result column="shop_name" property="companyName" />
         </association>
-        <association property="orderNum" column="user_id" select="selectOrderNum"></association>
-        <association property="orderSum" column="user_id" select="selectOrderSum"></association>
+        <association property="orderNum" column="user_id" select="selectOrderNum"/>
+        <association property="orderSum" column="user_id" select="selectOrderSum"/>
 
     </resultMap>
     <select id="selectOrderNum" resultType="integer" >
@@ -43,6 +45,8 @@
             u.`username`,
             u.PASSWORD,
             u.shop_id,
+            u.nickname,
+            u.amount,
             s.company_name AS shop_name
         FROM
             t_shops AS s,
@@ -51,7 +55,11 @@
         WHERE
             u.id = uinfo.user_id
           AND u.shop_id = s.id
-          And u.deleted_at = 0
+         <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+             <property name="tableName" value="u"/>
+             <property name="created_at_start" value="#{userInfo.searchParams.created_at_start}"/>
+             <property name="created_at_end" value="#{userInfo.searchParams.created_at_end}"/>
+         </include>
           and u.role = #{user.role}
         <if test="shop.companyName">
             AND  s.company_name = #{shop.companyName}
@@ -65,6 +73,8 @@
         <if test="userInfo.userId">
             AND  uinfo.user_id = #{userInfo.userId}
         </if>
+
+
 
         ORDER BY
             u.id DESC

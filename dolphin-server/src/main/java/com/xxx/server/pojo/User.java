@@ -53,6 +53,8 @@ public class User extends Base implements Serializable, UserDetails {
     @TableField(value = "role_id")
     private  Integer roleId;
 
+    private String nickname;
+
 
     @ApiModelProperty("角色")
     @TableField(exist = false)
