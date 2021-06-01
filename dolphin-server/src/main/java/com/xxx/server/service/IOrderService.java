@@ -4,6 +4,7 @@ import com.xxx.server.pojo.Order;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public interface IOrderService extends IService<Order> {
 
-    List<Order> getList(Order order);
+    List<Order> getList(Map params);
 
     void create(Order order);
 

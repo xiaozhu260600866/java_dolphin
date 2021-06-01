@@ -58,7 +58,9 @@
             o.shop_id = s.id
           AND o.user_id = u.user_id
           AND o.createor = staff.user_id
-          AND o.deleted_at = 0
+        <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+            <property name="tableName" value="o"/>
+        </include>
         <if test="status!=null">
             and o.status = #{status}
         </if>

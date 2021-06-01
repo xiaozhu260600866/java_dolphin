@@ -3,12 +3,11 @@
 <mapper namespace="com.xxx.server.mapper.CommonMapper">
     <sql id="globalWhere">
             And ${tableName}.deleted_at = 0
-            and ${tableName}.created_at &lt; ${created_at_end}
-            and ${tableName}.created_at  &gt;=  ${created_at_start}
-
-<!--            <if test="userInfo.searchParams!=null and userInfo.searchParams.created_at_start!=null">-->
-<!--               -->
-<!--            </if>-->
-
+        <if test="created_at_start !=null">
+            and ${tableName}.created_at  &gt;=  #{created_at_start}
+        </if>
+        <if test="created_at_end !=null">
+            and ${tableName}.created_at &lt; #{created_at_end}
+        </if>
     </sql>
 </mapper>

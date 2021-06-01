@@ -39,15 +39,11 @@ public class UserController {
     private IUserService userService;
     @ApiOperation("查看所有会员")
     @GetMapping("/lists")
-    public Map getLists(UserInfo userInfo, Shop shop,User user,HttpServletRequest request){
-        Map<String,Object>  searchParams = new HashMap<>();
-        //searchParams.put("created_at_start",  request.getParameter("created_at_start") + " 00:00:00");
-        //searchParams.put("created_at_end",request.getParameter("created_at_end") + " 23:59:59");
+    public Map getLists(@RequestParam(required = false) Map params){
+        params.put("role",2);
 
-        userInfo.setSearchParams(searchParams);
-        user.setRole(2);
         PageHelper.startPage(1, 15, true);
-        List<UserInfo> list = userService.getLists(userInfo,shop,user);
+        List<UserInfo> list = userService.getLists(params);
         PageInfo<UserInfo> pageInfo = new PageInfo<UserInfo>(list);
         Map lists = RespBean.getLists(pageInfo, list);
         return lists;

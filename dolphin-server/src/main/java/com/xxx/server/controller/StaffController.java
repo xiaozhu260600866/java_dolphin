@@ -11,10 +11,7 @@ import com.xxx.server.service.IUserService;
 import com.xxx.server.utils.Utils;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.ArrayList;
@@ -36,9 +33,9 @@ public class StaffController {
     private IShopService shopService;
     @ApiOperation("员工列表")
     @GetMapping("/lists")
-    public Map lists(UserInfo userInfo, Shop shop, User user){
+    public Map lists(@RequestParam(required = false) Map params){
         PageHelper.startPage(1, 15, true);
-        List<UserInfo> list =  userService.getStaffLists(userInfo,shop,user);
+        List<UserInfo> list =  userService.getStaffLists(params);
         PageInfo<UserInfo> pageInfo = new PageInfo<UserInfo>(list);
         Map lists = RespBean.getLists(pageInfo, list);
         List<Role> roles = roleService.list();

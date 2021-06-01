@@ -43,10 +43,10 @@ public class OrderController {
     private UserMapper userMapper;
     @ApiOperation("订单列表")
     @GetMapping("/lists")
-    public Map Lists(Order order){
+    public Map Lists(@RequestParam(required = false) Map params){
 
         PageHelper.startPage(1, 15, true);
-        List<Order> list = orderService.getList(order);
+        List<Order> list = orderService.getList(params);
         PageInfo<Order> pageInfo = new PageInfo<Order>(list);
         Map lists = RespBean.getLists(pageInfo, list);
         return  lists;

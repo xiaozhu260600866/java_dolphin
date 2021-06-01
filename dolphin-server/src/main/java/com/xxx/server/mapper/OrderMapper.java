@@ -4,6 +4,7 @@ import com.xxx.server.pojo.Order;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -15,5 +16,5 @@ import java.util.List;
  */
 public interface OrderMapper extends BaseMapper<Order> {
 
-    List<Order> getList(Order order);
+    List<Order> getList(Map params);
 }

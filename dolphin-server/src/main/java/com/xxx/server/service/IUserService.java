@@ -5,6 +5,7 @@ import com.xxx.server.pojo.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -26,7 +27,7 @@ public interface IUserService extends IService<User> {
     List<Role> getRoles(Integer adminId);
 
 
-    List<UserInfo> getLists(UserInfo params, Shop shop, User user);
+
 
     RespBean create(UserInfo userInfo, User user,UserRole userRole);
 
@@ -34,5 +35,7 @@ public interface IUserService extends IService<User> {
 
     RespBean del(User user);
 
-    List<UserInfo> getStaffLists(UserInfo userInfo, Shop shop, User user);
+    List<UserInfo> getStaffLists(Map params);
+
+    List<UserInfo> getLists(Map params);
 }

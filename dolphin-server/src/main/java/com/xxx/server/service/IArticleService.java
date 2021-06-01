@@ -18,7 +18,7 @@ import java.util.Map;
  */
 public interface IArticleService extends IService<Article> {
 
-    List<Article> getLists(Article article);
+    List<Article> getLists(Map params);
 
 
     RespBean create(Article article);

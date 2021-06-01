@@ -57,21 +57,19 @@
           AND u.shop_id = s.id
          <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
              <property name="tableName" value="u"/>
-             <property name="created_at_start" value="#{userInfo.searchParams.created_at_start}"/>
-             <property name="created_at_end" value="#{userInfo.searchParams.created_at_end}"/>
          </include>
-          and u.role = #{user.role}
-        <if test="shop.companyName">
-            AND  s.company_name = #{shop.companyName}
+          and u.role = #{role}
+        <if test="companyName !=null">
+            AND  s.company_name = #{companyName}
         </if>
-        <if test="userInfo.name">
-            AND  uinfo.name = #{userInfo.name}
+        <if test="name !=null">
+            AND  uinfo.name = #{name}
         </if>
-        <if test="userInfo.phone">
-            AND  uinfo.phone = #{userInfo.phone}
+        <if test="phone !=null ">
+            AND  uinfo.phone = #{phone}
         </if>
-        <if test="userInfo.userId">
-            AND  uinfo.user_id = #{userInfo.userId}
+        <if test="userId !=null">
+            AND  uinfo.user_id = #{userId}
         </if>
 
 
@@ -107,19 +105,21 @@
         u.id = uinfo.user_id
         AND u.shop_id = s.id
         AND u.role_id = r.id
-        And u.role = #{user.role}
-        And u.deleted_at = 0
-        <if test="shop.companyName">
-            AND  s.company_name = #{shop.companyName}
+        And u.role = #{role}
+        <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+            <property name="tableName" value="u"/>
+        </include>
+        <if test="companyName !=null">
+            AND  s.company_name = #{companyName}
         </if>
-        <if test="userInfo.name">
-            AND  uinfo.name = #{userInfo.name}
+        <if test="name !=null">
+            AND  uinfo.name = #{name}
         </if>
-        <if test="userInfo.phone">
-            AND  uinfo.phone = #{userInfo.phone}
+        <if test="phone !=null ">
+            AND  uinfo.phone = #{phone}
         </if>
-        <if test="userInfo.userId">
-            AND  uinfo.user_id = #{userInfo.userId}
+        <if test="userId !=null">
+            AND  uinfo.user_id = #{userId}
         </if>
         ORDER BY
         u.id DESC

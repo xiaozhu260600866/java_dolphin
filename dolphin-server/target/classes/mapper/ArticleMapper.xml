@@ -34,12 +34,16 @@
             t_articles AS t
                 LEFT JOIN t_article_class AS c ON t.fclass = c.id
         <where>
-            <if test="fclass">
-                t.fclass = #{fclass}
+            <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+                <property name="tableName" value="t"/>
+            </include>
+            <if test="fclass !=null">
+                and t.fclass = #{fclass}
             </if>
-            <if test="title">
+            <if test="title !=null">
                 and t.title = #{title}
             </if>
+
         </where>
 
         ORDER BY

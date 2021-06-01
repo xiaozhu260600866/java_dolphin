@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -23,8 +24,8 @@ public class OrderServiceImpl extends ServiceImpl<OrderMapper, Order> implements
     @Autowired
     private  OrderMapper orderMapper;
     @Override
-    public List<Order> getList(Order order) {
-        return orderMapper.getList(order);
+    public List<Order> getList(Map params) {
+        return orderMapper.getList(params);
     }
 
     @Override

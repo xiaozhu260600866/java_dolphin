@@ -7,6 +7,7 @@ import com.xxx.server.pojo.UserInfo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -18,8 +19,8 @@ import java.util.List;
  * @since 2021-05-19
  */
 public interface UserInfosMapper extends BaseMapper<UserInfo> {
-    List<UserInfo> getLists(@Param("userInfo") UserInfo userInfo, @Param("shop") Shop shop, @Param("user") User user);
 
+    List<UserInfo> getStaffLists(Map params);
 
-    List<UserInfo> getStaffLists(@Param("userInfo") UserInfo userInfo, @Param("shop") Shop shop, @Param("user")  User user);
+    List<UserInfo> getLists(Map params);
 }

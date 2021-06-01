@@ -109,9 +109,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     *return java.util.List<com.xxx.server.pojo.User>
     */
     @Override
-    public List<UserInfo> getLists(UserInfo userInfo, Shop shop, User user) {
+    public List<UserInfo> getLists(Map params) {
 
-        return userInfoMapper.getLists(userInfo,shop,user);
+        return userInfoMapper.getLists(params);
     }
 
     /*
@@ -177,8 +177,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
      * @return
      */
     @Override
-    public List<UserInfo> getStaffLists(UserInfo userInfo, Shop shop, User user) {
-        return userInfoMapper.getStaffLists(userInfo,shop,user);
+    public List<UserInfo> getStaffLists(Map params) {
+        return userInfoMapper.getStaffLists(params);
     }
 
 

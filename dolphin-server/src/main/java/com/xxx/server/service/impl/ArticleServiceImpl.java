@@ -26,8 +26,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     private  ArticleMapper articleMapper;
 
     @Override
-    public List<Article> getLists(Article article) {
-        return articleMapper.getLists(article);
+    public List<Article> getLists(Map params) {
+        return articleMapper.getLists(params);
     }
 
 
