@@ -71,9 +71,6 @@
         <if test="userId !=null">
             AND  uinfo.user_id = #{userId}
         </if>
-
-
-
         ORDER BY
             u.id DESC
     </select>

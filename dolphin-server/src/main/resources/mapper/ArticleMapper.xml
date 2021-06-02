@@ -45,9 +45,9 @@
             </if>
 
         </where>
-
-        ORDER BY
-            t.id DESC
+        <include refid="com.xxx.server.mapper.CommonMapper.globalOrderBy" >
+            <property name="tableName" value="t"/>
+        </include>
     </select>
 
 </mapper>

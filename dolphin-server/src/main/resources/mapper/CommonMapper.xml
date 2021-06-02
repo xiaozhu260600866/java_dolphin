@@ -10,4 +10,14 @@
             and ${tableName}.created_at &lt; #{created_at_end}
         </if>
     </sql>
+    <sql id="globalOrderBy">
+        <choose>
+            <when test="orderByField !=null">
+                ORDER BY ${tableName}.${orderByField} ${orderByValue}
+            </when>
+            <otherwise>
+                ORDER BY ${tableName}.id DESC
+            </otherwise>
+        </choose>
+    </sql>
 </mapper>

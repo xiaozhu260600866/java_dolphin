@@ -9,10 +9,16 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import java.time.LocalDateTime;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+import java.util.List;
+
+import com.xxx.server.mapper.ShopMapper;
+import com.xxx.server.service.IShopService;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 import lombok.experimental.Accessors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 /**
  * <p>
@@ -27,6 +33,7 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @TableName("t_order")
 @ApiModel(value="Order对象", description="")
+
 public class Order extends  Base implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -113,8 +120,6 @@ public class Order extends  Base implements Serializable {
 
         return "123";
     }
-
-
 
 
 
