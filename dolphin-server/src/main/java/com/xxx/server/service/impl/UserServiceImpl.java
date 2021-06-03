@@ -125,7 +125,10 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
     @Override
     @Transactional
     public RespBean create(UserInfo userInfo, User user,UserRole userRole) {
-         user.setUsername(userInfo.getPhone());
+         if(userInfo.getPhone() !=null){
+             user.setUsername(userInfo.getPhone());
+         }
+
          user.setPassword(passwordEncoder.encode(user.getPassword()));
          userMapper.insert(user);
          userInfo.setUserId(user.getId());

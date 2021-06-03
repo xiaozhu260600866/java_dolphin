@@ -54,6 +54,7 @@ public class User extends Base implements Serializable, UserDetails {
     private  Integer roleId;
 
     private String nickname;
+    private  String openid;
 
 
     @ApiModelProperty("角色")

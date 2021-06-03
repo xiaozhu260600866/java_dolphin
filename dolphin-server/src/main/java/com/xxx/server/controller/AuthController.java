@@ -1,14 +1,19 @@
 package com.xxx.server.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.xxx.server.config.security.component.JwtTokenUtil;
 import com.xxx.server.mapper.MenuRoleMapper;
 import com.xxx.server.mapper.RoleMapper;
+import com.xxx.server.mapper.UserMapper;
 import com.xxx.server.pojo.*;
 import com.xxx.server.service.IMenuRoleService;
 import com.xxx.server.service.IUserService;
 import com.xxx.server.utils.HttpURLConnectionDemo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +33,25 @@ public class AuthController {
    private MenuRoleMapper menuRoleMapper;
    @Autowired
    private  HttpURLConnectionDemo httpURLConnectionDemo;
+
+   @Autowired
+   private UserMapper userMapper;
+
+   @Autowired
+   private UserDetailsService userDetailsService;
+
+   @Autowired
+   private JwtTokenUtil jwtTokenUtil;
+
+    @Value("${jwt.tokenHead}")
+    private  String tokenHead;
+
+    @Value("${wechat.appid}")
+    private String appid;
+
+    @Value("${wechat.appsecert}")
+    private String appsecert;
+
 
     @ApiOperation(value = "登录之后返回token")
     @PostMapping("/login")
@@ -87,12 +111,26 @@ public class AuthController {
     @ApiOperation(value="获取微信openid")
     @GetMapping("openid")
     public RespBean  openid(@RequestParam(required = false) Map params){
-        //'';
-        String url ="https://api.weixin.qq.com/sns/jscode2session?appid=wx1da7b1ceecefe90f&secret=0688370c6c4e811ce14104b8e3081077&js_code="+ params.get("code") +"&grant_type=authorization_code";
+        String url ="https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+appsecert+"&js_code="+ params.get("code") +"&grant_type=authorization_code";
         Map map = httpURLConnectionDemo.doGet(url);
+        String openid = (String)map.get("openid");
+        User user = userService.getAdminByUserName(openid);
+        if(user == null){
+            user = new User();
+            user.setEnabled(true);
+            user.setUsername(openid);
+            user.setOpenid(openid);
+            user.setPassword("123456");
+            user.setRole(2);
+            UserInfo userInfo = new UserInfo();
+            userService.create(userInfo,user,null);
 
-        params.put("s", map.get("openid"));
-
+        }
+        UserDetails userDetails = userDetailsService.loadUserByUsername(openid);
+        String token = jwtTokenUtil.generateToken(userDetails);
+        params.put("openid", openid);
+        params.put("token", token);
+        params.put("tokenHead", tokenHead);
         return RespBean.success("成功",params);
     }
 
