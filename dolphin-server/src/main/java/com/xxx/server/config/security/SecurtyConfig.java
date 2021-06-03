@@ -44,6 +44,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
                 "/auth/login",
+                "/auth/openid",
                 "/auth/logout",
                 "/static/images/**",
                 "/static/images/**/**",

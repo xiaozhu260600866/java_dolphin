@@ -6,6 +6,7 @@ import com.xxx.server.mapper.RoleMapper;
 import com.xxx.server.pojo.*;
 import com.xxx.server.service.IMenuRoleService;
 import com.xxx.server.service.IUserService;
+import com.xxx.server.utils.HttpURLConnectionDemo;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,8 @@ public class AuthController {
     private IUserService userService;
    @Autowired
    private MenuRoleMapper menuRoleMapper;
+   @Autowired
+   private  HttpURLConnectionDemo httpURLConnectionDemo;
 
     @ApiOperation(value = "登录之后返回token")
     @PostMapping("/login")
@@ -80,4 +83,17 @@ public class AuthController {
     public RespBean text() {
         return RespBean.success("text");
     }
+
+    @ApiOperation(value="获取微信openid")
+    @GetMapping("openid")
+    public RespBean  openid(@RequestParam(required = false) Map params){
+        //'';
+        String url ="https://api.weixin.qq.com/sns/jscode2session?appid=wx1da7b1ceecefe90f&secret=0688370c6c4e811ce14104b8e3081077&js_code="+ params.get("code") +"&grant_type=authorization_code";
+        Map map = httpURLConnectionDemo.doGet(url);
+
+        params.put("s", map.get("openid"));
+
+        return RespBean.success("成功",params);
+    }
+
 }

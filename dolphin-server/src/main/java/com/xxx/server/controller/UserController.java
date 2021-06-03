@@ -70,4 +70,12 @@ public class UserController {
           return userService.del(user);
     }
 
+    @ApiOperation("删除全部")
+    @PostMapping("/delAll")
+    public RespBean delAll(@RequestBody Map map){
+        return null;
+
+    }
+
+
 }
