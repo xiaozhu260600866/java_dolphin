@@ -1,11 +1,14 @@
 package com.xxx.server.pojo;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.apache.poi.ss.formula.functions.T;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -57,18 +60,24 @@ public class RespBean {
         return new RespBean(500, message, obj);
 
     }
-    public  static Map getLists(PageInfo pageInfo ,Object obj){
+
+    public static void startPage(Map params){
+        String pageNum = params.get("page") !=null ? (String) params.get("page") : "1";
+        String pageSize = params.get("pageSize") !=null ? (String) params.get("pageSize") : "15";
+        PageHelper.startPage(Integer.parseInt(pageNum), Integer.parseInt(pageSize), true);
+    }
+    public  static Map getLists( List list){
+        PageInfo<T> pageInfo = new PageInfo<T>(list);
+
         Map<String,Object> result = new HashMap<String,Object>();
         Map<String,Object> pageLists = new HashMap<String,Object>();
 
-
-        pageLists.put("data",obj);
+        pageLists.put("data",list);
         pageLists.put("total",pageInfo.getTotal());
         pageLists.put("last_page",pageInfo.getPages());
         pageLists.put("current_page",pageInfo.getPageNum());
         result.put("lists",pageLists);
         return result;
-
 
     }
 }

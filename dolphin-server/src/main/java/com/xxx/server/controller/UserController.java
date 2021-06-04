@@ -42,10 +42,9 @@ public class UserController {
     public Map getLists(@RequestParam(required = false) Map params){
         params.put("role",2);
 
-        PageHelper.startPage(1, 15, true);
+        RespBean.startPage(params);
         List<UserInfo> list = userService.getLists(params);
-        PageInfo<UserInfo> pageInfo = new PageInfo<UserInfo>(list);
-        Map lists = RespBean.getLists(pageInfo, list);
+        Map lists = RespBean.getLists(list);
         return lists;
     }
     @ApiOperation("新增会员")
@@ -75,6 +74,13 @@ public class UserController {
     public RespBean delAll(@RequestBody Map map){
         return null;
 
+    }
+
+    @ApiOperation("取会员一个")
+    @GetMapping("/info")
+    public Map getInfo(@RequestParam(required = false) Map params){
+        params.put("user",Utils.getUser());
+        return params;
     }
 
 

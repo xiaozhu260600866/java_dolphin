@@ -20,4 +20,34 @@
             </otherwise>
         </choose>
     </sql>
+
+    <sql id="selectSum" >
+        SELECT SUM(${sumField}) from  ${tableName} as o
+        <include refid="${nameSpaceLeftJoin}">
+            <property name="tableName" value="o"></property>
+        </include>
+        <where>
+            <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+                <property name="tableName" value="o"/>
+            </include>
+            <include refid="${nameSpaceWhere}">
+                <property name="tableName" value="o"/>
+            </include>
+        </where>
+    </sql>
+
+    <sql id="selectCount" >
+        SELECT count(*) from  ${tableName} as o
+        <include refid="${nameSpaceLeftJoin}">
+            <property name="tableName" value="o"></property>
+        </include>
+        <where>
+            <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+                <property name="tableName" value="o"/>
+            </include>
+            <include refid="${nameSpaceWhere}">
+                <property name="tableName" value="o"/>
+            </include>
+        </where>
+    </sql>
 </mapper>

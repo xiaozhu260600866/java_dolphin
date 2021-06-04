@@ -11,11 +11,7 @@ import com.xxx.server.service.IShopService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -38,11 +34,10 @@ public class ShopController {
 
     @ApiOperation("查看门店列表1")
     @GetMapping("/")
-    public Map getLists(Shop shop){
-        PageHelper.startPage(1, 15, true);
+    public Map getLists(@RequestParam(required = false) Map params){
+        RespBean.startPage(params);
         List<Shop> list = shopService.list();
-        PageInfo<Shop> pageInfo = new PageInfo<Shop>(list);
-        Map lists = RespBean.getLists(pageInfo, list);
+        Map lists = RespBean.getLists( list);
         return lists;
     }
     @ApiOperation("新增门店")

@@ -85,8 +85,9 @@ public class ArticleController {
     public Map getLists(@RequestParam(required = false) Map params){
         PageHelper.startPage(1, 15, true);
         List<Article> list =  articleService.getLists(params);
+        RespBean.startPage(params);
         PageInfo<Article> pageInfo = new PageInfo<Article>(list);
-        Map lists = RespBean.getLists(pageInfo, list);
+        Map lists = RespBean.getLists(list);
         return  lists;
     }
     @ApiModelProperty("新建新闻")

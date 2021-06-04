@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
@@ -41,14 +42,20 @@ public class OrderController {
     private OrderMapper orderMapper;
     @Autowired
     private UserMapper userMapper;
+
     @ApiOperation("订单列表")
     @GetMapping("/lists")
     public Map Lists(@RequestParam(required = false) Map params){
-
-        PageHelper.startPage(1, 15, true);
+        RespBean.startPage(params);
         List<Order> list = orderService.getList(params);
-        PageInfo<Order> pageInfo = new PageInfo<Order>(list);
-        Map lists = RespBean.getLists(pageInfo, list);
+        Map lists = RespBean.getLists(list);
+
+        params.put("sumField","price");
+        BigDecimal price = orderMapper.selectSum(params);
+        Integer count = orderMapper.selectCount(params);
+
+        lists.put("price",price);
+        lists.put("count",count);
         return  lists;
     }
 

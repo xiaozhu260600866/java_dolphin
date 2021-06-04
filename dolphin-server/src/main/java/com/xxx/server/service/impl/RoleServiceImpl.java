@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -38,8 +39,8 @@ public class RoleServiceImpl extends ServiceImpl<RoleMapper, Role> implements IR
     @Autowired
     private MenuRoleMapper menuRoleMapper;
     @Override
-    public List<Role> getAllRole(Role role) {
-        List<Role> allRole = roleMapper.getAllRole(role);
+    public List<Role> getAllRole(Map params) {
+        List<Role> allRole = roleMapper.getAllRole(params);
         allRole.forEach(r->{
             List<String> roleMenuList = new ArrayList<>();
             List<MenuRole> roleMenus = menuRoleMapper.selectMenusByRoleId(r.getId());

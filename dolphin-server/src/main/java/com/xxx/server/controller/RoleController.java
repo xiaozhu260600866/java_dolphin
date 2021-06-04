@@ -36,12 +36,10 @@ public class RoleController {
     @GetMapping("/lists")
 
 
-    public Map getLists(Role role){
-        PageHelper.startPage(1, 15, true);
-        List<Role> list = roleService.getAllRole(role);
-        PageInfo<Role> pageInfo = new PageInfo<Role>(list);
-        Map lists = RespBean.getLists(pageInfo, list);
-
+    public Map getLists(@RequestParam(required = false) Map params){
+        RespBean.startPage(params);
+        List<Role> list = roleService.getAllRole(params);
+        Map lists = RespBean.getLists(list);
         String[] roleMenus = {"user.lists.create","user.lists.edit"};
         System.out.println(Utils.getRoleMenu2(roleMenus));
 

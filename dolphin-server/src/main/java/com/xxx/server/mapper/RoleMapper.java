@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.xxx.server.pojo.Role;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -17,7 +18,7 @@ public interface RoleMapper extends BaseMapper<Role> {
 
     List<Role> getRoles(Integer userId);
 
-    List<Role> getAllRole(Role role);
+    List<Role> getAllRole(Map params);
 
 
 }

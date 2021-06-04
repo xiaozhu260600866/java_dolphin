@@ -34,10 +34,9 @@ public class StaffController {
     @ApiOperation("员工列表")
     @GetMapping("/lists")
     public Map lists(@RequestParam(required = false) Map params){
-        PageHelper.startPage(1, 15, true);
+        RespBean.startPage(params);
         List<UserInfo> list =  userService.getStaffLists(params);
-        PageInfo<UserInfo> pageInfo = new PageInfo<UserInfo>(list);
-        Map lists = RespBean.getLists(pageInfo, list);
+        Map lists = RespBean.getLists(list);
         List<Role> roles = roleService.list();
         List<Map<String, Object>> roleArr = Utils.getLabel(roles,"name");
         lists.put("roleArr",roleArr);

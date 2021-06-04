@@ -31,6 +31,8 @@ public class AjaxController {
         String path= realBasePath;
         String upurl = request.getParameter("upurl");
         path = path+="images/"+upurl;
+        System.out.println("path");
+        System.out.println(path);
         File pathFile = new File(path);
         if(!pathFile.isDirectory()){
             pathFile.mkdir();

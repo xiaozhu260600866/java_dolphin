@@ -55,6 +55,8 @@ public class User extends Base implements Serializable, UserDetails {
 
     private String nickname;
     private  String openid;
+    @ApiModelProperty("微信头像")
+    private  String avatarUrl;
 
 
     @ApiModelProperty("角色")

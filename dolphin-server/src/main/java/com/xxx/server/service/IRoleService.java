@@ -5,6 +5,7 @@ import com.xxx.server.pojo.RespBean;
 import com.xxx.server.pojo.Role;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * <p>
@@ -16,7 +17,7 @@ import java.util.List;
  */
 public interface IRoleService extends IService<Role> {
 
-    List<Role> getAllRole(Role role);
+    List<Role> getAllRole(Map params);
 
     RespBean createRoleMenus(Role role);
 

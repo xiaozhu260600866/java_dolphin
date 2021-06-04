@@ -8,8 +8,7 @@ import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 /**
@@ -55,5 +54,12 @@ public class Poster extends Base implements Serializable {
     @TableField("is_index")
     private Integer isIndex;
 
+    @TableField(exist = false)
+    @Setter(AccessLevel.NONE)
+    @Getter(AccessLevel.NONE)
+    private  String cover;
 
+    public String getCover() {
+        return pic;
+    }
 }

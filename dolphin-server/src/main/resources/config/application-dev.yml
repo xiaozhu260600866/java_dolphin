@@ -115,7 +115,7 @@ pagehelper:
 file:
   accessPath: /static/
   staticAccessPath: /static/**
-  uploadFolder: D:\java\dolphin\backServer\dolphin-server\src\main\resources\static\
+  uploadFolder: /site/dolphin_java/back_server/java_dolphin/dolphin-server/src/main/resources/static/
 
 wechat:
   appid: wx1da7b1ceecefe90f

@@ -42,6 +42,20 @@
             <result column="staff_name" property="name" />
         </association>
     </resultMap>
+    <select id="selectSum" resultType="decimal">
+        <include refid="com.xxx.server.mapper.CommonMapper.selectSum" >
+            <property name="tableName" value="t_order"/>
+            <property name="nameSpaceWhere" value="com.xxx.server.mapper.OrderMapper.where"/>
+            <property name="nameSpaceLeftJoin" value="com.xxx.server.mapper.OrderMapper.leftJoin"/>
+        </include>
+    </select>
+    <select id="selectCount" resultType="integer">
+        <include refid="com.xxx.server.mapper.CommonMapper.selectCount" >
+            <property name="tableName" value="t_order"/>
+            <property name="nameSpaceWhere" value="com.xxx.server.mapper.OrderMapper.where"/>
+            <property name="nameSpaceLeftJoin" value="com.xxx.server.mapper.OrderMapper.leftJoin"/>
+        </include>
+    </select>
     <select id="getList" resultMap="getListMap">
         SELECT
             o.*,
@@ -50,31 +64,41 @@
             s.NAME AS shop_name,
             staff.NAME AS staff_name
         FROM
-            t_order AS o,
-            t_shops AS s,
-            t_user_infos AS u,
-            t_user_infos AS staff
-        WHERE
-            o.shop_id = s.id
-          AND o.user_id = u.user_id
-          AND o.createor = staff.user_id
-        <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+            t_order AS o
+            <include refid="leftJoin">
+                <property name="tableName" value="o"></property>
+            </include>
+        <where>
+            <include refid="where">
+                <property name="tableName" value="o"/>
+            </include>
+            <include refid="com.xxx.server.mapper.CommonMapper.globalWhere" >
+                <property name="tableName" value="o"/>
+            </include>
+        </where>
+
+        <include refid="com.xxx.server.mapper.CommonMapper.globalOrderBy" >
             <property name="tableName" value="o"/>
         </include>
+    </select>
+    <sql id="where">
         <if test="status!=null">
-            and o.status = #{status}
+            and ${tableName}.status = #{status}
         </if>
         <if test="userId!=null">
-            and o.user_id = #{userId}
+            and ${tableName}.user_id = #{userId}
         </if>
         <if test="goodsName!=null">
-            and o.good_name = #{goodsName}
+            and ${tableName}.good_name = #{goodsName}
         </if>
         <if test="orderNo!=null">
-            and o.order_no = #{orderNo}
+            and ${tableName}.order_no = #{orderNo}
         </if>
-        ORDER BY
-            o.id DESC
-    </select>
+    </sql>
+    <sql id="leftJoin">
+        LEFT JOIN t_shops as s on  s.id = ${tableName}.shop_id
+        LEFT JOIN t_user_infos as u on  u.user_id = ${tableName}.user_id
+        LEFT JOIN t_user_infos as staff on  u.user_id = ${tableName}.createor
+    </sql>
 
 </mapper>

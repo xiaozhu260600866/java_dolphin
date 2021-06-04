@@ -113,7 +113,21 @@ public class AuthController {
     public RespBean  openid(@RequestParam(required = false) Map params){
         String url ="https://api.weixin.qq.com/sns/jscode2session?appid="+appid+"&secret="+appsecert+"&js_code="+ params.get("code") +"&grant_type=authorization_code";
         Map map = httpURLConnectionDemo.doGet(url);
-        String openid = (String)map.get("openid");
+        User user = userService.getAdminByUserName((String)map.get("openid"));
+        if(user!=null){
+            UserDetails userDetails = userDetailsService.loadUserByUsername(user.getOpenid());
+            String token = jwtTokenUtil.generateToken(userDetails);
+            map.put("token", token);
+            map.put("tokenHead", tokenHead);
+        }
+        return RespBean.success("成功",map);
+    }
+
+    @ApiOperation("更新会员资料5")
+    @PostMapping("/updateUser")
+    public RespBean updateUser(@RequestBody Map pargams){
+        Map<String, Object> userMap = (Map<String, Object>) pargams.get("user");
+        String openid = (String) userMap.get("openid");
         User user = userService.getAdminByUserName(openid);
         if(user == null){
             user = new User();
@@ -122,16 +136,18 @@ public class AuthController {
             user.setOpenid(openid);
             user.setPassword("123456");
             user.setRole(2);
+            user.setNickname((String)userMap.get("nickName"));
+            user.setAvatarUrl((String)userMap.get("avatarUrl"));
             UserInfo userInfo = new UserInfo();
+            userInfo.setName(user.getUsername());
             userService.create(userInfo,user,null);
-
         }
         UserDetails userDetails = userDetailsService.loadUserByUsername(openid);
         String token = jwtTokenUtil.generateToken(userDetails);
-        params.put("openid", openid);
-        params.put("token", token);
-        params.put("tokenHead", tokenHead);
-        return RespBean.success("成功",params);
+        pargams.put("openid", openid);
+        pargams.put("token", token);
+        pargams.put("tokenHead", tokenHead);
+        return RespBean.success("成功",pargams);
     }
 
 }
