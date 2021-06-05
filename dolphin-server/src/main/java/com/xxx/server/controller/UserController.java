@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xxx.server.annotation.MultiRequestBody;
+import com.xxx.server.mapper.OrderMapper;
 import com.xxx.server.pojo.*;
 import com.xxx.server.service.IUserService;
 import com.xxx.server.utils.GetRequestJsonUtils;
@@ -37,6 +38,8 @@ import com.alibaba.fastjson.JSONObject;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private OrderMapper orderMapper;
     @ApiOperation("查看所有会员")
     @GetMapping("/lists")
     public Map getLists(@RequestParam(required = false) Map params){
@@ -79,6 +82,14 @@ public class UserController {
     @ApiOperation("取会员一个")
     @GetMapping("/info")
     public Map getInfo(@RequestParam(required = false) Map params){
+        Map<String,Object> orderParams = new HashMap<>();
+        orderParams.put("user_id",Utils.getUser().getId());
+        orderParams.put("status",0);
+        params.put("status0Count",orderMapper.selectCount(orderParams));
+        orderParams.put("status",1);
+        params.put("status1Count",orderMapper.selectCount(orderParams));
+        orderParams.put("status",2);
+        params.put("status2Count",orderMapper.selectCount(orderParams));
         params.put("user",Utils.getUser());
         return params;
     }

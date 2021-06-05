@@ -9,6 +9,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.xxx.server.annotation.MultiRequestBody;
 import com.xxx.server.mapper.ArticleClassMapper;
+import com.xxx.server.mapper.ArticleMapper;
 import com.xxx.server.pojo.*;
 import com.xxx.server.service.IArticleClassService;
 import com.xxx.server.service.IArticleService;
@@ -37,6 +38,9 @@ public class ArticleController {
 
     @Autowired
     private IArticleService articleService;
+
+    @Autowired
+    private ArticleMapper articleMapper;
 
 
     @ApiOperation("添加类别")
@@ -110,6 +114,13 @@ public class ArticleController {
     @PostMapping("/del")
     public RespBean del(@MultiRequestBody Article article){
         return articleService.del(article);
+    }
+
+    @ApiOperation("查看新闻")
+    @GetMapping("/show")
+    public RespBean show(Article article){
+        Article detail = articleMapper.selectById(article.getId());
+        return RespBean.success("成功",detail);
     }
 
 

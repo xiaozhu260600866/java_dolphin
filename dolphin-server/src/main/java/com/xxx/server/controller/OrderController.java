@@ -46,6 +46,9 @@ public class OrderController {
     @ApiOperation("订单列表")
     @GetMapping("/lists")
     public Map Lists(@RequestParam(required = false) Map params){
+        if(params.get("source") !=null && params.get("source").equals("wechat")){
+            params.put("userId",Utils.getUser().getId());
+        }
         RespBean.startPage(params);
         List<Order> list = orderService.getList(params);
         Map lists = RespBean.getLists(list);
