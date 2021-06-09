@@ -52,7 +52,7 @@ public class CodeGenerator {
 // 全局配置
         GlobalConfig gc = new GlobalConfig();
         String projectPath = System.getProperty("user.dir");
-        gc.setOutputDir(projectPath + "/db-generator/src/main/java");
+        gc.setOutputDir(projectPath + "/dolphin-server/src/main/java");
 //作者
         gc.setAuthor("zhoubin");
 //打开输出目录
@@ -103,7 +103,7 @@ public class CodeGenerator {
                         tableInfo.getEntityName().substring(0, tableInfo.getEntityName().length() -1):
                         tableInfo.getEntityName();
                 System.out.println("tableName"+tableName);
-                return projectPath + "/db-generator/src/main/resources/mapper/"
+                return projectPath + "/dolphin-server/src/main/resources/mapper/"
                         + tableName + "Mapper"
                         + StringPool.DOT_XML;
             }
