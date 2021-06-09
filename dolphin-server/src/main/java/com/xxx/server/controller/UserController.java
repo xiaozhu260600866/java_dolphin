@@ -8,6 +8,7 @@ import com.github.pagehelper.PageInfo;
 import com.xxx.server.annotation.MultiRequestBody;
 import com.xxx.server.mapper.OrderMapper;
 import com.xxx.server.pojo.*;
+import com.xxx.server.service.IAmountIncomeService;
 import com.xxx.server.service.IUserService;
 import com.xxx.server.utils.GetRequestJsonUtils;
 import com.xxx.server.utils.Utils;
@@ -38,6 +39,8 @@ import com.alibaba.fastjson.JSONObject;
 public class UserController {
     @Autowired
     private IUserService userService;
+    @Autowired
+    private IAmountIncomeService amountIncomeService;
     @Autowired
     private OrderMapper orderMapper;
     @ApiOperation("查看所有会员")
@@ -93,6 +96,24 @@ public class UserController {
         params.put("user",Utils.getUser());
         return params;
     }
+
+    @ApiOperation("会员充值明细")
+    @GetMapping("/amount-record")
+    public Map getAmountRecord(@RequestParam(required = false) Map params){
+        RespBean.startPage(params);
+        List<AmountIncome> list = amountIncomeService.getLists(params);
+        Map lists = RespBean.getLists(list);
+        return lists;
+    }
+    @ApiOperation("会员充值")
+    @PostMapping("/recharge-amount")
+    public RespBean postRechargeAmount(@MultiRequestBody AmountIncome income){
+        income.setCreateor(Utils.getUser().getId());
+        income.setShopId(Utils.getUser().getShopId());
+        income.setStatus("0");
+        return amountIncomeService.create(income);
+    }
+
 
 
 }
