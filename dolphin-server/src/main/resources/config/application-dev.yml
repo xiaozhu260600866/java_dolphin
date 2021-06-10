@@ -117,8 +117,6 @@ file:
   staticAccessPath: /static/**
   uploadFolder: /site/dolphin_java/back_server/java_dolphin/dolphin-server/src/main/resources/static/
 
-wechat:
-  appid: wx13eb6f69c3407043
-  appsecert: 226f75b3e918015e7e7b6ddeac90da7d
+
 
 

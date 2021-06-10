@@ -8,10 +8,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import java.io.FileNotFoundException;
 import java.nio.charset.Charset;
 import java.util.List;
 
@@ -29,12 +31,23 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     private String accessPath;
     @Value("${file.staticAccessPath}")
     private String staticAccessPath;
+
+    @Value("${spring.profiles.active}")
+    private String active;
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //设置允许静态资源;
         //registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/swagger2/**").addResourceLocations("classpath:/swagger2/");
         // 文件的真实路径
+        System.out.println(active);
+        if(active.equals("dev")){
+            try {
+                realBasePath = ResourceUtils.getFile("classpath:static").getPath() +"/";
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         registry.addResourceHandler(staticAccessPath).addResourceLocations("file:" + realBasePath);
 
     }

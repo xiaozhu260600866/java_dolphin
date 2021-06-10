@@ -6,6 +6,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.lang.ArrayUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.ClassUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.*;
 
@@ -25,9 +27,19 @@ public class AjaxController {
     private String realBasePath;
     @Value("${file.accessPath}")
     private String accessPath;
+    @Value("${spring.profiles.active}")
+    private String active;
     @ApiOperation("上传图片")
     @PostMapping("/uploadpic")
     public RespBean upload(HttpServletRequest request){
+        if(active.equals("dev")){
+            //if developer
+            try {
+                realBasePath = ResourceUtils.getFile("classpath:static").getPath() +"/";
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
         String path= realBasePath;
         String upurl = request.getParameter("upurl");
         path = path+="images/"+upurl;

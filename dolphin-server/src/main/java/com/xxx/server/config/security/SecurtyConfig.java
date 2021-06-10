@@ -45,8 +45,10 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/auth/login",
                 "/auth/openid",
+                "*.txt",
                 "/auth/updateUser",
                 "/auth/logout",
+                "/static/**",
                 "/static/images/**",
                 "/static/images/**/**",
                 "favicon.ico",
@@ -56,7 +58,8 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
                 "/v2/api-docs/**",
                 "/captcha**",
                 "/home/**",
-                "/interceptor/**"
+                "/interceptor/**",
+                "/wechat/**"
 
 
         );
