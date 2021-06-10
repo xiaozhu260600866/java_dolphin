@@ -33,18 +33,18 @@ public class HomeControoler {
     public Map getIndex(@RequestParam(required = false) Map params) throws Exception {
 
         //wxpayStart
-        Map<String, String> data = new HashMap<String, String>();
-        String orderId = System.currentTimeMillis() + "js1" ;
-        data.put("body", "支付信息");//支付信息
-        data.put("out_trade_no", orderId); //订单号
-        data.put("device_info", "WEB");//设备信息
-        data.put("fee_type", "CNY");//币种
-        data.put("openid", (String) params.get("openid"));//币种
-        data.put("total_fee", "1");//充值金额
-        data.put("spbill_create_ip", "127.0.0.1");//客户端IP
-        data.put("notify_url","127.0.0.0:1/api/notify");//异步回调通知地址
-        data.put("trade_type", "JSAPI");  // 此处指定为扫码支付
-        params.put("config",JSONObject.toJSONString(WxOrder.order(data)));
+//        Map<String, String> data = new HashMap<String, String>();
+//        String orderId = System.currentTimeMillis() + "js1" ;
+//        data.put("body", "支付信息");//支付信息
+//        data.put("out_trade_no", orderId); //订单号
+//        data.put("device_info", "WEB");//设备信息
+//        data.put("fee_type", "CNY");//币种
+//        data.put("openid", (String) params.get("openid"));//币种
+//        data.put("total_fee", "1");//充值金额
+//        data.put("spbill_create_ip", "127.0.0.1");//客户端IP
+//        data.put("notify_url","127.0.0.0:1/api/notify");//异步回调通知地址
+//        data.put("trade_type", "JSAPI");  // 此处指定为扫码支付
+//        params.put("config",JSONObject.toJSONString(WxOrder.order(data)));
         //wxpayEnd
         List<Poster> silders = posterService.list(new QueryWrapper<Poster>().eq("type", 1));
         List<Poster> location = posterService.list(new QueryWrapper<Poster>().eq("type", 2));
