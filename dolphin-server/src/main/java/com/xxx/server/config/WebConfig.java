@@ -39,6 +39,8 @@ public class WebConfig extends WebMvcConfigurerAdapter {
         //设置允许静态资源;
         //registry.addResourceHandler("/static/**").addResourceLocations("classpath:/static/");
         registry.addResourceHandler("/swagger2/**").addResourceLocations("classpath:/swagger2/");
+        registry.addResourceHandler("/*.txt").addResourceLocations("classpath:/a/");
+
         // 文件的真实路径
         System.out.println(active);
         if(active.equals("dev")){

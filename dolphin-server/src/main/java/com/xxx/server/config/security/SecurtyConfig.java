@@ -45,7 +45,7 @@ public class SecurtyConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers(
                 "/auth/login",
                 "/auth/openid",
-                "*.txt",
+                "/*.txt",
                 "/auth/updateUser",
                 "/auth/logout",
                 "/static/**",

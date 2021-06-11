@@ -2,10 +2,13 @@ package com.xxx.server.utils;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.xxx.server.exception.GlobalExceptionHandler;
 import com.xxx.server.pojo.User;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.formula.functions.T;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -25,6 +28,8 @@ public class Utils {
     *params 
     *return com.xxx.server.pojo.User        
     */
+    private static final Logger logger = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+
     public static User  getUser(){
         try {
             return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -108,11 +113,13 @@ public class Utils {
     public static String getUrl(){
         ServletRequestAttributes requestAttributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = requestAttributes.getRequest();
-        if(request.getServerName().contains("localhost")){
-            return  "http://" + request.getServerName() + ":" + request.getServerPort();
-        }else{
-            return  "https://" + request.getServerName() + ":" + request.getServerPort();
-        }
+        logger.info("---------------------- url start ---------------------- ");
+        return "https://javadolphin.doxinsoft.com";
+//        if(request.getServerName().contains("localhost")){
+//            return  "http://" + request.getServerName() + ":" + request.getServerPort();
+//        }else{
+//            return  "https://" + request.getServerName() + ":" + request.getServerPort();
+//        }
     }
 
     /**
