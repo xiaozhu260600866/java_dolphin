@@ -12,6 +12,6 @@ import java.util.Map;
 public class WechatTestController {
     @GetMapping("test")
     public Map getTest(HttpServletRequest request){
-         return (Map)request.getAttribute("userInfo");
+         return (Map) request.getSession().getAttribute("userInfo");
     }
 }

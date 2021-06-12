@@ -138,5 +138,35 @@ public class Utils {
         return resultList;
     }
 
+    /**
+     * 解析第三方返回值
+     *
+     * @param request
+     *  请求
+     * @return map
+     */
+public static String getAllParams(HttpServletRequest request)
+ {
+
+     List<String> result = new ArrayList<>();
+     Enumeration paramNames = request.getParameterNames();
+     while (paramNames.hasMoreElements())
+     {
+          String paramName = (String) paramNames.nextElement();
+          String[] paramValues = request.getParameterValues(paramName);
+          if (paramValues.length == 1)
+          {
+                String paramValue = paramValues[0];
+                if (paramValue.length() != 0)
+                 {
+                     result.add(paramName+"="+paramValue);
+                 }
+          }
+        }
+      return StringUtils.join(result,"&");
+ }
+
+
+
 
 }
